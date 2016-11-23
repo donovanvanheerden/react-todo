@@ -25,7 +25,6 @@ var TodoApp = React.createClass({
 
       return todo;
     });
-    console.log(updatedTodos);
     this.setState({todos: updatedTodos});
   },
   handleSearch: function(showCompleted, searchText) {
@@ -35,13 +34,14 @@ var TodoApp = React.createClass({
     this.setState({todos: [...this.state.todos, { id:uuid(), text:text, completed: false }] });
   },
   render: function() {
-    var {todos} = this.state;
+    var {todos, showCompleted, searchText} = this.state;
+    var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
 
     return (
       <div>
         <h2>Todo</h2>
         <TodoSearch onSearch={this.handleSearch}/>
-        <TodoList todos={todos} onToggle={this.handleToggle}/>
+        <TodoList todos={filteredTodos} onToggle={this.handleToggle}/>
         <AddTodo onSubmit={this.handleAddTodo} />
       </div>
     );
